@@ -15,8 +15,8 @@ jobs:
     # Those env will be available only on the job level
     env:
       MONGODB_CLUSTER_ADDRESS: cluster0.49oji3j.mongodb.net
-      MONGODB_USERNAME: idox2x
-      MONGODB_PASSWORD: Ions9eI1HS8AYbWL
+      MONGODB_USERNAME: ${{ secrets.MONGODB_USERNAME }}
+      MONGODB_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}
     environment: testing
     runs-on: ubuntu-latest
     steps:
