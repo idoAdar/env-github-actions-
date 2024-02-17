@@ -15,9 +15,13 @@ jobs:
     # Those env will be available only on the job level
     env:
       MONGODB_CLUSTER_ADDRESS: cluster0.49oji3j.mongodb.net
+      # $ {{ secrets.SECRET_NAME }} is env that taken direct from Github (under project setting - secrets)
       MONGODB_USERNAME: ${{ secrets.MONGODB_USERNAME }}
       MONGODB_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}
-    environment: testing
+    # environment is a feature that can fetch diffrent secrets for diffrent jobs
+    # for example: maybe for testing we want to direct for diffrent mongodb database
+    # notice that if we set env inside environment (on github), this job will use them instead of the env that found in the secrets section under setting project. 
+    # environment: testing 
     runs-on: ubuntu-latest
     steps:
       - name: Get Code
