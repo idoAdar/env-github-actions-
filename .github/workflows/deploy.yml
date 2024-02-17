@@ -4,7 +4,7 @@ name: Deployment
 on:
   push:
     branches:
-      - main
+      - master
       - dev
 # Those env will be available acroos all jobs
 env:
