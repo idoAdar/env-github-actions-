@@ -1,0 +1,47 @@
+# Environment Variable:
+# MongoDB Credentials (Connect to Cluster0): mongodb+srv://idox2x:<password>@cluster0.49oji3j.mongodb.net/
+name: Deployment
+on:
+  push:
+    branches:
+      - main
+      - dev
+# Those env will be available acroos all jobs
+env:
+  MONGODB_DB_NAME: Github-action-env 
+  PORT: 8080 
+jobs:
+  test:
+    # Those env will be available only on the job level
+    env:
+      MONGODB_CLUSTER_ADDRESS: cluster0.49oji3j.mongodb.net
+      MONGODB_USERNAME: idox2x
+      MONGODB_PASSWORD: Ions9eI1HS8AYbWL
+    environment: testing
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get Code
+        uses: actions/checkout@v3
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: npm-deps-${{ hashFiles('**/package-lock.json') }}
+      - name: Install dependencies
+        run: npm ci
+      - name: Run server
+      # Interpolate Env from the yml file:
+        # Ubuntu: $ENV_NAME 
+        # Windows: $env:ENV_NAME
+        run: npm start & npx wait-on http://127.0.0.1:$PORT
+      - name: Run tests
+        run: npm test
+      - name: Output information
+        run: echo "Done - Testing"
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Output information
+        run: |        
+          echo "..."
